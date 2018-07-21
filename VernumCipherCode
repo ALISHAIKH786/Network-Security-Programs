@@ -1,0 +1,69 @@
+
+package monoalphabeticcipher;
+
+/**
+ *
+ * @author Md Ali Shaikh
+ */
+public class VernamCipher {
+    public static String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+
+    public String getCipheredText(String plainText, String oneTimePad){
+        plainText = plainText.toLowerCase();
+        oneTimePad = oneTimePad.toLowerCase();
+        String cipheredText = "";
+        boolean doExit = false;
+        
+        if(plainText.length() == oneTimePad.length()){
+            String[] pTArr = plainText.split(" ");
+            String[] oTPArr = oneTimePad.split(" ");
+            
+            if(pTArr.length == oTPArr.length){
+                for (int i = 0; i < pTArr.length; i++) {
+                    if(pTArr[i].length() == oTPArr[i].length()){
+                    String plainTextWord = pTArr[i], oneTimePadWord = oTPArr[i];
+                    int len = plainTextWord.length();
+                        for (int j = 0; j < len; j++) {
+                            String ptChar = String.valueOf(plainTextWord.charAt(j));
+                            String otpChar = String.valueOf(oneTimePadWord.charAt(j));
+                            int ptPos = ALPHABET.indexOf(ptChar);
+                            int otpPos = ALPHABET.indexOf(otpChar);
+                            int initial = ptPos + otpPos;
+                            if(initial>25){
+                                initial = initial - 26; 
+                            }
+                            
+                            cipheredText += ALPHABET.charAt(initial);
+                        }
+                        cipheredText += " ";
+                    }else{
+                        doExit = true;
+                        break;
+                    }
+                }
+   
+            }
+            else{
+                doExit = true;
+            }
+        }else{
+            doExit = true;
+        }
+        if (doExit) {
+            System.out.println("The sequence for the plain text and OTP is not equal..");
+            System.exit(0);
+        }
+        return cipheredText;
+    }
+
+    public static void main(String[] args) {
+        VernamCipher vc = new VernamCipher();
+        String plainText = "i am fine thanku";
+        String oneTimePad = "x mp ypgn hnlpqr";
+        //System.out.println(plainText + " + " + oneTimePad );
+        System.out.println("plainText: "+plainText);
+        System.out.println("oneTimePad: "+oneTimePad);
+        String cipheredText = vc.getCipheredText(plainText, oneTimePad);
+        System.out.println("cipheredText: "+cipheredText);
+    }
+}
