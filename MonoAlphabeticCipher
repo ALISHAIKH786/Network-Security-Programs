@@ -1,0 +1,50 @@
+
+package monoalphabeticcipher;
+
+import sun.security.pkcs11.wrapper.CK_DATE;
+
+/**
+ *
+ * @author Md Ali Shaikh
+ */
+public class MonoAlphabeticCipher {
+
+    public static String ALPHABET ="abcdefghijklmnopqrstuvwxyz";
+    public static String cryptoAlpha="abcdefghijklmnopqrstuvwxyz";
+    public static String cryptoKey = "";
+        public String getCipheredText(String plainText,String key){
+            plainText=plainText.toLowerCase();
+            key=key.toLowerCase();
+            String cipheredText = "";
+                
+                cryptoAlpha = key + cryptoAlpha;
+		char[] chars = cryptoAlpha.toCharArray();
+                int len = chars.length;
+                for (int i = 0; i < len; i++) {
+                    String ch = String.valueOf(chars[i]);
+                if(!cryptoKey.contains(ch)){
+                    cryptoKey += ch;
+                }
+               }
+                
+		for (int k = 0; k < plainText.length(); k++) {
+			char plainChar = plainText.charAt(k);
+			int index = ALPHABET.indexOf(plainChar);
+			char ch = cryptoKey.charAt(index);
+			cipheredText += ch;
+                }
+		return cipheredText;
+	}
+        
+    
+    public static void main(String[] args) {
+                MonoAlphabeticCipher mac = new MonoAlphabeticCipher();
+                String key = "goodboy", plainText = "alishaikh";
+                String cipheredText = mac.getCipheredText(plainText, key);
+                System.out.println(ALPHABET.toUpperCase());
+                System.out.println("cryptoKey: "+cryptoKey+" : "+cryptoKey.length());
+                System.out.println("Key: "+key);
+                System.out.println("plainText: "+plainText);
+                System.out.println("ciphereText: "+cipheredText);
+    }
+}   
